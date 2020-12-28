@@ -1,14 +1,38 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button,ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  FlatList,
+} from "react-native";
 import ListItem from "./component/ListItem";
 
 export default function App() {
   const [inputValue, setInputValue] = useState("");
   const [placeList, setPlaceState] = useState([]);
 
-  const list = placeList.map((item, i) => {
-    return <ListItem placeName={item} key={i}  onItemPressed={()=>alert(`Hello ${item} !`)}/>;
-  });
+  let ClearBtn = null;
+  if (placeList.length > 0) {
+    ClearBtn = (
+      <View style={styles.clrBtn}>
+        <Button
+          title="clear"
+          color="#2E8B57"
+          onPress={() => {
+            setTimeout(() => {
+              setPlaceState([]);
+              setInputValue("");
+            }, 200);
+
+            console.log("press");
+          }}
+        />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.inputView}>
@@ -29,30 +53,28 @@ export default function App() {
           color="#2E8B57"
           onPress={() => {
             if (inputValue !== "") {
-              setPlaceState([...placeList, inputValue]);
+              setPlaceState([
+                ...placeList,
+                { key: Math.random().toString(), value: inputValue },
+              ]);
               setInputValue("");
             }
           }}
         />
-      </View >
-      <ScrollView>
-      {list}
-      </ScrollView>
-
-
-      <View style={styles.clrBtn}>
-      <Button
-      title="clear"
-      color="#2E8B57"
-      
-      onPress={()=>{
-        setPlaceState([])
-        setInputValue("")
-        console.log("press");
-      }}
-      />
       </View>
-
+      <FlatList
+        data={placeList}
+        renderItem={({ item, index }) => {
+          //console.log("item, index :", item, index);
+          return (
+            <ListItem
+              placeName={item.value}
+              onItemPressed={() => alert(`Hello ${item} !`)}
+            />
+          );
+        }}
+      />
+      {ClearBtn}
     </View>
   );
 }
@@ -72,11 +94,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  clrBtn :{
-    marginTop : 5,
+  clrBtn: {
+    marginTop: 5,
     borderWidth: 1,
     borderColor: "orange",
     borderRadius: 6,
-
-  }
+    position: "relative",
+  },
 });
