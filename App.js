@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { StyleSheet, Text, View, TextInput, Button,ScrollView } from "react-native";
 import ListItem from "./component/ListItem";
 
 export default function App() {
   const [inputValue, setInputValue] = useState("");
   const [placeList, setPlaceState] = useState([]);
-  
+
   const list = placeList.map((item, i) => {
-    return <ListItem placeName={item} key={i} />;
+    return <ListItem placeName={item} key={i}  onItemPressed={()=>alert(`Hello ${item} !`)}/>;
   });
   return (
     <View style={styles.container}>
@@ -35,7 +35,10 @@ export default function App() {
           }}
         />
       </View >
+      <ScrollView>
       {list}
+      </ScrollView>
+
 
       <View style={styles.clrBtn}>
       <Button
