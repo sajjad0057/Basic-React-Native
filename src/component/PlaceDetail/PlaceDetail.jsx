@@ -9,14 +9,14 @@ const PlaceDetail = (props) => {
                 <Text style={styles.TextStyle}>
                     {props.place.value}
                 </Text>
-                <View>
+                <View style={styles.BtnStyle}>
                     <Button 
                     title="delete" 
                     color = "red"
                     onPress = {()=>props.handleDeleteItem(props.place.key)}
                     />
                 </View>
-                <View>
+                <View style={styles.BtnStyle}>
                     <Button 
                     title="close"
                     color = "green"
@@ -39,5 +39,9 @@ const styles = StyleSheet.create({
         textAlign : "center",
         fontSize : 40
     },
+    BtnStyle : {
+        margin:2,
+        padding: 10
+    }
 
 })
