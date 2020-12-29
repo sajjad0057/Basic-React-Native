@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import {
   StyleSheet,
-  Text,
+
   View,
-  TextInput,
+
   Button,
-  FlatList,
+
 } from "react-native";
-import ListItem from "./component/ListItem";
+import InputPlace from "./component/InputPlace/InputPlace";
+import PlaceList from "./component/PlaceList/PlaceList";
 
 export default function App() {
   const [inputValue, setInputValue] = useState("");
@@ -26,7 +27,7 @@ export default function App() {
               setInputValue("");
             }, 200);
 
-            console.log("press");
+            console.log("press clear Button");
           }}
         />
       </View>
@@ -35,45 +36,14 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputView}>
-        <TextInput
-          style={{
-            width: "85%",
-            borderBottomWidth: 1,
-            borderColor: "orange",
-            padding: 7,
-          }}
-          placeholder="Add a place .."
-          value={inputValue}
-          onChangeText={(text) => setInputValue(text)}
-        />
-
-        <Button
-          title="ADD"
-          color="#2E8B57"
-          onPress={() => {
-            if (inputValue !== "") {
-              setPlaceState([
-                ...placeList,
-                { key: Math.random().toString(), value: inputValue },
-              ]);
-              setInputValue("");
-            }
-          }}
-        />
-      </View>
-      <FlatList
-        data={placeList}
-        renderItem={({ item, index }) => {
-          //console.log("item, index :", item, index);
-          return (
-            <ListItem
-              placeName={item.value}
-              onItemPressed={() => alert(`Hello ${item} !`)}
-            />
-          );
-        }}
+      <InputPlace
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        placeList={placeList}
+        setPlaceState={setPlaceState}
       />
+      <PlaceList placeList={placeList}/>
+
       {ClearBtn}
     </View>
   );
@@ -86,13 +56,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     flexDirection: "column",
     padding: 10,
-  },
-  inputView: {
-    padding: 20,
-    width: "100%",
-    marginTop: 50,
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
   clrBtn: {
     marginTop: 5,
