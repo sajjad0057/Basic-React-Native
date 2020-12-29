@@ -12,6 +12,7 @@ const PlaceList = (props) => {
           <ListItem
             placeName={item.value}
             onItemPressed={()=>props.handleSelectedPlace(item.key)}
+            image = {item.image}
           />
         );
       }}

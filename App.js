@@ -7,19 +7,41 @@ import PlaceList from "./component/PlaceList/PlaceList";
 export default function App() {
   const [inputValue, setInputValue] = useState("");
   const [placeList, setPlaceState] = useState([]);
-  const [selectedPlace,setSelectedPlace] = useState(null)
+  const [selectedPlace, setSelectedPlace] = useState(null);
 
-  const handleSelectedPlace = (key) =>{
-    const place = placeList.find(place=>{
+  console.log("placeList :", placeList);
+  console.log("selectedPlace :", selectedPlace);
+
+  const handleSelectedPlace = (key) => {
+    const place = placeList.find((place) => {
       return place.key === key;
-    })
-    setSelectedPlace(place)
+    });
+    setSelectedPlace(place);
+  };
 
-  }
+  const handleHideModal = () => {
+    setSelectedPlace(null);
+  };
 
-  let placeDetail = null
-  if(selectedPlace !==null){
-    placeDetail = <PlaceDetail place={selectedPlace}/>
+  const handleDeleteItem = (key) => {
+    //console.log("key :",key);
+    const newplaceList = placeList.filter((place) => (
+      place.key !== key
+    ));
+    //console.log("newplaceList :",newplaceList);
+    setPlaceState(newplaceList);
+    setSelectedPlace(null);
+  };
+
+  let placeDetail = null;
+  if (selectedPlace !== null) {
+    placeDetail = (
+      <PlaceDetail
+        place={selectedPlace}
+        handleDeleteItem={handleDeleteItem}
+        handleHideModal={handleHideModal}
+      />
+    );
   }
 
   let ClearBtn = null;
@@ -51,9 +73,9 @@ export default function App() {
         placeList={placeList}
         setPlaceState={setPlaceState}
       />
-      <PlaceList 
-      placeList={placeList}
-      handleSelectedPlace={handleSelectedPlace}
+      <PlaceList
+        placeList={placeList}
+        handleSelectedPlace={handleSelectedPlace}
       />
 
       {ClearBtn}

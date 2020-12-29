@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Text, Pressable  } from "react-native";
+import { StyleSheet, View, Text, Pressable,Image  } from "react-native";
 
-const ListItem = ({ placeName, onItemPressed }) => {
+const ListItem = ({ placeName, onItemPressed,image }) => {
   return (
     <Pressable  onPress={onItemPressed}>
       <View style={styles.listItem} >
+        <Image source={image} style={styles.ImgStyle}/>
         <Text style={{ textAlign: "center" }}>{placeName}</Text>
       </View>
     </Pressable>
@@ -23,6 +24,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
   },
+  ImgStyle : {
+    width : "100%",
+    height : 150,
+}
 });
 
 export default ListItem;
