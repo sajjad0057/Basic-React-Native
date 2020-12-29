@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-
-  View,
-
-  Button,
-
-} from "react-native";
+import { StyleSheet, View, Button } from "react-native";
 import InputPlace from "./component/InputPlace/InputPlace";
+import PlaceDetail from "./component/PlaceDetail/PlaceDetail";
 import PlaceList from "./component/PlaceList/PlaceList";
 
 export default function App() {
   const [inputValue, setInputValue] = useState("");
   const [placeList, setPlaceState] = useState([]);
+  const [selectedPlace,setSelectedPlace] = useState(null)
+
+  const handleSelectedPlace = (key) =>{
+    const place = placeList.find(place=>{
+      return place.key === key;
+    })
+    setSelectedPlace(place)
+
+  }
+
+  let placeDetail = null
+  if(selectedPlace !==null){
+    placeDetail = <PlaceDetail place={selectedPlace}/>
+  }
 
   let ClearBtn = null;
   if (placeList.length > 0) {
@@ -36,13 +44,17 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      {placeDetail}
       <InputPlace
         inputValue={inputValue}
         setInputValue={setInputValue}
         placeList={placeList}
         setPlaceState={setPlaceState}
       />
-      <PlaceList placeList={placeList}/>
+      <PlaceList 
+      placeList={placeList}
+      handleSelectedPlace={handleSelectedPlace}
+      />
 
       {ClearBtn}
     </View>

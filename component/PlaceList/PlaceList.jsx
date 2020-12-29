@@ -11,7 +11,7 @@ const PlaceList = (props) => {
         return (
           <ListItem
             placeName={item.value}
-            onItemPressed={() => alert(`Hello ${item.value} !`)}
+            onItemPressed={()=>props.handleSelectedPlace(item.key)}
           />
         );
       }}
