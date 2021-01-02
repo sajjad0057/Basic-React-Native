@@ -3,41 +3,60 @@ import { StyleSheet, View, Button } from "react-native";
 import InputPlace from "./component/InputPlace/InputPlace";
 import PlaceDetail from "./component/PlaceDetail/PlaceDetail";
 import PlaceList from "./component/PlaceList/PlaceList";
+import { connect } from "react-redux";
+import { addPlace,ClearPlaceList,DeletePlace,setSelectedPlace} from "./redux/actionCreators";
 
-const MainComponent = () => {
+
+
+
+const mapStateToProps = state =>{
+  return {
+    placeList : state.placeList,
+    selectedPlace : state.selectedPlace
+  }
+}
+
+
+
+const mapDispatchToProps = dispatch =>{
+  return {
+    addPlace : place =>dispatch(addPlace(place)),
+    ClearPlaceList : () =>dispatch(ClearPlaceList()),
+    DeletePlace : key =>dispatch(DeletePlace(key)),
+    setSelectedPlace : place =>dispatch(setSelectedPlace(place))
+  }
+}
+
+
+
+
+const MainComponent = (props) =>{
     const [inputValue, setInputValue] = useState("");
-    const [placeList, setPlaceState] = useState([]);
-    const [selectedPlace, setSelectedPlace] = useState(null);
-  
-    //console.log("placeList :", placeList);
-    //console.log("selectedPlace :", selectedPlace);
+    console.log("placeList :", props.placeList);
+    console.log("selectedPlace :",props.selectedPlace);
   
     const handleSelectedPlace = (key) => {
-      const place = placeList.find((place) => {
+      const place = props.placeList.find((place) => {
         return place.key === key;
       });
-      setSelectedPlace(place);
+      props.setSelectedPlace(place);
     };
   
     const handleHideModal = () => {
-      setSelectedPlace(null);
+      props.setSelectedPlace(null);
     };
   
     const handleDeleteItem = (key) => {
       //console.log("key :",key);
-      const newplaceList = placeList.filter((place) => (
-        place.key !== key
-      ));
-      //console.log("newplaceList :",newplaceList);
-      setPlaceState(newplaceList);
-      setSelectedPlace(null);
+      props.setSelectedPlace(null);
+      props.DeletePlace(key)
     };
   
     let placeDetail = null;
-    if (selectedPlace !== null) {
+    if (props.selectedPlace !== null) {
       placeDetail = (
         <PlaceDetail
-          place={selectedPlace}
+          place={props.selectedPlace}
           handleDeleteItem={handleDeleteItem}
           handleHideModal={handleHideModal}
         />
@@ -45,7 +64,7 @@ const MainComponent = () => {
     }
   
     let ClearBtn = null;
-    if (placeList.length > 0) {
+    if (props.placeList.length > 0) {
       ClearBtn = (
         <View style={styles.clrBtn}>
           <Button
@@ -53,9 +72,8 @@ const MainComponent = () => {
             color="#2E8B57"
             onPress={() => {
               setTimeout(() => {
-                setPlaceState([]);
+                props.ClearPlaceList()
                 setInputValue("");
-                setSelectedPlace(null);
               }, 200);
   
               console.log("press clear Button");
@@ -71,11 +89,11 @@ const MainComponent = () => {
         <InputPlace
           inputValue={inputValue}
           setInputValue={setInputValue}
-          placeList={placeList}
-          setPlaceState={setPlaceState}
+          placeList={props.placeList}
+          addPlace={props.addPlace}
         />
         <PlaceList
-          placeList={placeList}
+          placeList={props.placeList}
           handleSelectedPlace={handleSelectedPlace}
         />
   
@@ -83,10 +101,8 @@ const MainComponent = () => {
       </View>
     );
   }
-  
-  
 
-export default MainComponent
+
 
 const styles = StyleSheet.create({
     container: {
@@ -104,3 +120,6 @@ const styles = StyleSheet.create({
       position: "relative",
     },
   });
+
+
+  export default connect(mapStateToProps,mapDispatchToProps)(MainComponent)

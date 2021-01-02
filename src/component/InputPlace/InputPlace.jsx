@@ -22,8 +22,7 @@ const InputPlace = (props) => {
           color="#2E8B57"
           onPress={() => {
             if (props.inputValue !== "") {
-              props.setPlaceState([
-                ...props.placeList,
+              props.addPlace(
                 { 
                     key: Math.random().toString(),
                     value: props.inputValue,
@@ -31,7 +30,7 @@ const InputPlace = (props) => {
                         uri : "https://cdn-media-1.freecodecamp.org/images/1*e2uBLw946pDyqjdV5xAJpQ.png"
                     },
                  },
-              ]);
+              );
               props.setInputValue("");
             }
           }}
