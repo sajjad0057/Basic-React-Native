@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View,Modal,Image,Button} from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const PlaceDetail = (props) => {
     return (
@@ -10,6 +11,7 @@ const PlaceDetail = (props) => {
                     {props.place.value}
                 </Text>
                 <View style={{margin:4}}>
+                    <Icon name="trash" size={20} color="red"/>
                     <Button 
                     title="delete" 
                     color = "red"
