@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View,Modal,Image,Button} from 'react-native'
+import { StyleSheet, Text, View,Modal,Image,Button,TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const PlaceDetail = (props) => {
@@ -10,20 +10,19 @@ const PlaceDetail = (props) => {
                 <Text style={styles.TextStyle}>
                     {props.place.value}
                 </Text>
-                <View style={{margin:4}}>
-                    <Icon name="trash" size={20} color="red"/>
-                    <Button 
-                    title="delete" 
-                    color = "red"
-                    onPress = {()=>props.handleDeleteItem(props.place.key)}
-                    />
+                <View style={{margin:4,alignItems:"center"}}>
+                    <TouchableOpacity
+                    onPress = {()=>props.handleDeleteItem(props.place.key)} 
+                    >
+                        <Icon name="trash" size={60} color="red"/>
+                    </TouchableOpacity>
                 </View>
-                <View style={{margin:4}}>
-                    <Button 
-                    title="close"
-                    color = "green"
-                    onPress = {()=>props.handleHideModal()}
-                    />
+                <View style={{margin:4,alignItems:"center"}}>
+                <TouchableOpacity
+                onPress = {()=>props.handleHideModal()}
+                >
+                    <Icon name="times-circle" size={60}color="green"/>
+                </TouchableOpacity>
                 </View>
             </View>
         </Modal>
