@@ -6,6 +6,7 @@ import Store from "./src/redux/store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./src/component/Login/Login";
+import navigationTab from "./src/component/navigationTab/navigationTab";
 
 
 
@@ -18,6 +19,7 @@ export default function App() {
       <Provider store={Store}>
         <Stack.Navigator>
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Home" component={navigationTab} />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>
