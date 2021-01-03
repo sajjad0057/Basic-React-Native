@@ -3,7 +3,7 @@ import { View, Button,Image } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 
 const PickImage = (props) => {
-    console.log("PickImage props--->",props);
+    //console.log("PickImage props--->",props);
     const handleImagePick = async ()=>{
         try{
             let result = await ImagePicker.launchImageLibraryAsync({
@@ -13,7 +13,7 @@ const PickImage = (props) => {
               quality : 1
             })
             if(!result.cancelled){
-                console.log("result --->",result);
+                //console.log("result --->",result);
                 props.setImage(result.uri)
             }
         }

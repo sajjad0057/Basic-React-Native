@@ -5,7 +5,7 @@ const ListItem = ({ placeName, onItemPressed,image }) => {
   return (
     <Pressable  onPress={onItemPressed}>
       <View style={styles.listItem} >
-        <Image source={image} style={styles.ImgStyle}/>
+        <Image source={{uri:image}} style={styles.ImgStyle}/>
         <Text style={{ textAlign: "center" }}>{placeName}</Text>
       </View>
     </Pressable>

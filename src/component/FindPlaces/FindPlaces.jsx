@@ -32,6 +32,8 @@ const FindPlaces = (props) =>{
 
     // console.log("placeList :", props.placeList);
     // console.log("selectedPlace :",props.selectedPlace);
+
+    //console.log("FindPlace Props --->",props);
   
     const handleSelectedPlace = (key) => {
       const place = props.placeList.find((place) => {
@@ -71,6 +73,7 @@ const FindPlaces = (props) =>{
             onPress={() => {
               setTimeout(() => {
                 props.ClearPlaceList()
+                props.navigation.navigate("Share Places")
               }, 200);
   
               //console.log("press clear Button");

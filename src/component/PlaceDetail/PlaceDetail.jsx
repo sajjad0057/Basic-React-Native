@@ -6,7 +6,7 @@ const PlaceDetail = (props) => {
     return (
         <Modal>
             <View>
-                <Image source={props.place.image} style={styles.ImgStyle}/>
+                <Image source={{uri:props.place.image}} style={styles.ImgStyle}/>
                 <Text style={styles.TextStyle}>
                     {props.place.value}
                 </Text>

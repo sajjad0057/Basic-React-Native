@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text,Button } from "react-native";
+import { View, Text, Button } from "react-native";
 import InputPlace from "../InputPlace/InputPlace";
 import { connect } from "react-redux";
 import { addPlace } from "../../redux/actionCreators";
@@ -13,40 +13,51 @@ const mapDispatchToProps = (dispatch) => {
 
 const SharePlaces = (props) => {
   const [inputValue, setInputValue] = useState("");
-  const [image,setImage] = useState(null)
+  const [image, setImage] = useState(null);
+  //console.log("image :",image);
+  //console.log("SharePlaces props --->",props);
+
+  const handleAddingPlace = () => {
+    if (inputValue === "" || image === null) {
+      if (image === null) {
+        alert("Pick an Image !");
+      } else {
+        alert("Add place name !");
+      }
+    }else{
+        
+        props.addPlace({
+            key: Math.random().toString(),
+            value:inputValue,
+            image: image
+          });
+          setInputValue("");
+          setImage(null)
+          props.navigation.navigate("Find Places")
+    }
+  };
+
   return (
     <View>
-        <PickImage image={image} setImage={setImage}/>
+      <PickImage image={image} setImage={setImage} />
       <InputPlace
         inputValue={inputValue}
         setInputValue={setInputValue}
         addPlace={props.addPlace}
       />
-      <View style={{alignItems:"center"}}>
-      <View style={{width:"50%"}}>
-        <Button
-          title="ADD PLACE"
-          color="#f50589"
-          onPress={() => {
-            if (inputValue !== "") {
-              props.addPlace({
-                key: Math.random().toString(),
-                value:inputValue,
-                image: {
-                  uri:
-                    "https://cdn-media-1.freecodecamp.org/images/1*e2uBLw946pDyqjdV5xAJpQ.png",
-                },
-              });
-              setInputValue("");
-            }
-          }}
-        />
+      <View style={{ alignItems: "center" }}>
+        <View style={{ width: "50%" }}>
+          <Button
+            title="ADD PLACE"
+            color="#f50589"
+            onPress={() => {
+              handleAddingPlace();
+            }}
+          />
+        </View>
       </View>
-      </View>
-
     </View>
   );
 };
-
 
 export default connect(null, mapDispatchToProps)(SharePlaces);
