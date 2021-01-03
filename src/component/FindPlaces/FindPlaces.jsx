@@ -28,10 +28,10 @@ const mapDispatchToProps = dispatch =>{
 
 
 
-const FindOlaces = (props) =>{
+const FindPlaces = (props) =>{
 
-    console.log("placeList :", props.placeList);
-    console.log("selectedPlace :",props.selectedPlace);
+    // console.log("placeList :", props.placeList);
+    // console.log("selectedPlace :",props.selectedPlace);
   
     const handleSelectedPlace = (key) => {
       const place = props.placeList.find((place) => {
@@ -73,7 +73,7 @@ const FindOlaces = (props) =>{
                 props.ClearPlaceList()
               }, 200);
   
-              console.log("press clear Button");
+              //console.log("press clear Button");
             }}
           />
         </View>
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
   });
 
 
-  export default connect(mapStateToProps,mapDispatchToProps)(FindOlaces)
+  export default connect(mapStateToProps,mapDispatchToProps)(FindPlaces)
