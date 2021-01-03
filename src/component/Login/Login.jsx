@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text,Button } from 'react-native'
 
 const Login = props => {
-    console.log("props.navigation :",props.navigation);
+    //console.log("props.navigation :",props.navigation);
     return (
         <View>
             <Text>
