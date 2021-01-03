@@ -3,16 +3,33 @@ import { View, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SharePlaces from "../SharePlaces/SharePlaces";
 import FindPlaces from "../FindPlaces/FindPlaces";
+import Icons from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const Tab = createBottomTabNavigator();
 
 const navigationTab = (props) => {
   return (
-      <Tab.Navigator>
-        <Tab.Screen name="Share Places" component={SharePlaces} />
-        <Tab.Screen name="Find Places" component={FindPlaces} />
-      </Tab.Navigator>
-      
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Find Places"
+        component={FindPlaces}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icons name="md-map" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Share Places"
+        component={SharePlaces}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icons name="arrow-redo-sharp" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 };
 
