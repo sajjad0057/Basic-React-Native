@@ -9,7 +9,37 @@ export const addPlace = place =>dispatch=>{
     .then(response=>response.json())
     .then(data=>console.log('handle fetch post data :',data))
     .catch(err=>{
-        return console.log('Error to fetch post data :',err)
+        return console.log('hanlde fetch post err :',err)
+    })
+}
+
+export const setPlaces = places =>{
+    return {
+        type : actionTypes.SET_PLACES,
+        payload : places
+    }
+}
+
+
+
+export const loadPlaces = () =>dispatch=>{
+    fetch("https://my-places-97beb-default-rtdb.firebaseio.com/places.json")
+    .then(res=>res.json())
+    .then(data=>{
+        console.log("handle fetch get data :",data)
+        const places = []
+        for(let key in data){
+            places.push({
+                ...data[key],
+                key:key
+            })
+        }
+         
+         dispatch(setPlaces(places))
+    })
+    .catch(err=>{
+        alert("Something Went Wrong !")
+        console.log("handle fetch post err :",err)
     })
 }
 

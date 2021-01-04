@@ -35,6 +35,11 @@ export const rootReducer = (state=initState,action)=>{
                 ...state,
                 selectedPlace : action.payload
             }
+        case actionTypes.SET_PLACES:
+            return {
+                ...state,
+                placeList : action.payload
+            }
         default:
             return state
     }

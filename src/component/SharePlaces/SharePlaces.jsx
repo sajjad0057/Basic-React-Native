@@ -33,7 +33,7 @@ const SharePlaces = (props) => {
           });
           setInputValue("");
           setImage(null)
-          props.navigation.navigate("Find Places")
+          // props.navigation.navigate("Find Places")
     }
   };
 

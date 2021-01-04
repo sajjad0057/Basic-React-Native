@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { StyleSheet, View, Button } from "react-native";
 
 import PlaceDetail from "../PlaceDetail/PlaceDetail";
 import PlaceList from "../PlaceList/PlaceList";
 import { connect } from "react-redux";
-import {ClearPlaceList,DeletePlace,setSelectedPlace} from "../../redux/actionCreators";
+import {ClearPlaceList,DeletePlace,setSelectedPlace,loadPlaces} from "../../redux/actionCreators";
 
 
 
@@ -21,7 +21,8 @@ const mapDispatchToProps = dispatch =>{
   return {
     ClearPlaceList : () =>dispatch(ClearPlaceList()),
     DeletePlace : key =>dispatch(DeletePlace(key)),
-    setSelectedPlace : place =>dispatch(setSelectedPlace(place))
+    setSelectedPlace : place =>dispatch(setSelectedPlace(place)),
+    loadPlaces:()=>dispatch(loadPlaces())
   }
 }
 
@@ -34,6 +35,11 @@ const FindPlaces = (props) =>{
     // console.log("selectedPlace :",props.selectedPlace);
 
     //console.log("FindPlace Props --->",props);
+
+    useEffect(()=>{
+      console.log("called useEffet");
+      props.loadPlaces()
+    },[])
   
     const handleSelectedPlace = (key) => {
       const place = props.placeList.find((place) => {
