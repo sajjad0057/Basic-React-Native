@@ -5,6 +5,7 @@ const initState = {
     placeList : [],
     selectedPlace : null,
     isAuth:false,
+    token : null,
 }
 
 
@@ -44,7 +45,8 @@ export const rootReducer = (state=initState,action)=>{
         case actionTypes.AUTHENTICATE_USER:
             return {
                 ...state,
-                isAuth : true
+                isAuth : true,
+                token : action.payload
             }
         default:
             return state

@@ -2,8 +2,10 @@ import * as actionTypes from "./actionType"
 import { navigate } from "../../App";
 
 
-export const addPlace = place =>dispatch=>{
-    fetch("https://my-places-97beb-default-rtdb.firebaseio.com/places.json",{
+export const addPlace = place =>(dispatch,getState)=>{     
+    // If we using redux-thunk middleware here 2nd parameter "getSate" give us global sate.
+    let token = getState().token;
+    fetch(`https://my-places-97beb-default-rtdb.firebaseio.com/places.json?auth=${token}`,{
         method:"POST",
         body:JSON.stringify(place)
     })
@@ -23,8 +25,9 @@ export const setPlaces = places =>{
 
 
 
-export const loadPlaces = () =>dispatch=>{
-    fetch("https://my-places-97beb-default-rtdb.firebaseio.com/places.json")
+export const loadPlaces = () =>(dispatch,getState)=>{
+    let token = getState().token;
+    fetch(`https://my-places-97beb-default-rtdb.firebaseio.com/places.json?auth=${token}`)
     .then(res=>res.json())
     .then(data=>{
         console.log("handle fetch get data :",data)
@@ -64,9 +67,10 @@ export const ClearPlaceList = () =>{
     }
 }
 
-export const authUser = ()=>{
+export const authUser = (token)=>{
     return {
         type : actionTypes.AUTHENTICATE_USER,
+        payload : token
 
     }
 }
@@ -74,7 +78,7 @@ export const authUser = ()=>{
 
 
 
-export const tryAuth = (email,password,mode)=>dispatch=>{
+export const tryAuth = (email,password,mode)=>(dispatch)=>{
     let URL = ""
     const API_KEY = "AIzaSyCSgyWbDTmR7g7Q6EiUZXvsbZ19ClNuQpk"
     if(!mode){
@@ -105,8 +109,9 @@ export const tryAuth = (email,password,mode)=>dispatch=>{
         if(data.error){
             alert(data.error.message)
         }else{
+            dispatch(authUser(data.idToken))
             navigate("Home")
-            dispatch(authUser())
+            
         }
     })
 }
