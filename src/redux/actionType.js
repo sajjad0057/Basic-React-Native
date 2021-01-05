@@ -9,3 +9,6 @@ export const CLEAR_PLACELIST = "CLEAR_PLACELIST"
 
 export const LOAD_PLACES = "LOAD_PLACES"
 export const SET_PLACES = "SET_PLACES"
+
+export const TRY_SIGNUP = "TRY_SIGNUP"
+export const TRY_LOGIN = "TRY_LOGIN"

@@ -64,3 +64,27 @@ export const ClearPlaceList = () =>{
 }
 
 
+export const trySignUp = (email,password)=>dispatch=>{
+    const API_KEY = "AIzaSyCSgyWbDTmR7g7Q6EiUZXvsbZ19ClNuQpk"
+    fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="+API_KEY,{
+        method:"POST",
+        body:JSON.stringify({
+            email:email,
+            password:password,
+            returnSecureToken:true,
+        }),
+        headers:{
+            "Content-Type":"application/json"
+        }
+      
+    })
+    .catch(err=>{
+        console.log("err------> :",err);
+        alert("Authentication Failed!")
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        console.log("data----> :",data)
+    })
+}
+

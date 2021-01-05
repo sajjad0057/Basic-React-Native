@@ -9,6 +9,22 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
+import { trySignUp } from "../../redux/actionCreators";
+import { connect } from "react-redux";
+
+
+
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        trySignUp:(email,password)=>dispatch(trySignUp(email,password))
+    }
+}
+
+
+
+
+
 
 const Login = (props) => {
   //console.log("props.navigation :",props.navigation);
@@ -58,6 +74,7 @@ const Login = (props) => {
                 confrimPassword: "",
               },
             });
+            props.trySignUp(email,password)
             props.navigation.navigate("Home");
           } else {
             alert("password field doesn't match !");
@@ -129,7 +146,7 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default connect(null,mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   loginView: {
