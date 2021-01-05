@@ -1,4 +1,5 @@
 import * as actionTypes from "./actionType"
+import { navigate } from "../../App";
 
 
 export const addPlace = place =>dispatch=>{
@@ -63,6 +64,15 @@ export const ClearPlaceList = () =>{
     }
 }
 
+export const authUser = ()=>{
+    return {
+        type : actionTypes.AUTHENTICATE_USER,
+
+    }
+}
+
+
+
 
 export const trySignUp = (email,password)=>dispatch=>{
     const API_KEY = "AIzaSyCSgyWbDTmR7g7Q6EiUZXvsbZ19ClNuQpk"
@@ -85,6 +95,12 @@ export const trySignUp = (email,password)=>dispatch=>{
     .then(res=>res.json())
     .then(data=>{
         console.log("data----> :",data)
+        if(data.error){
+            alert(data.error.message)
+        }else{
+            navigate("Home")
+            dispatch(authUser())
+        }
     })
 }
 

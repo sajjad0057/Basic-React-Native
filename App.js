@@ -8,13 +8,20 @@ import Login from "./src/component/Login/Login";
 import navigationTab from "./src/component/navigationTab/navigationTab";
 
 
+const navigationRef = React.createRef()
+
+export const navigate = (name,params)=>{
+  navigationRef.current && navigationRef.current.navigate(name,params)
+}
+
+
 
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Provider store={Store}>
         <Stack.Navigator>
           <Stack.Screen name="Login" component={Login} />

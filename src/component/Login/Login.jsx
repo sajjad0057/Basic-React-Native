@@ -12,19 +12,17 @@ import {
 import { trySignUp } from "../../redux/actionCreators";
 import { connect } from "react-redux";
 
+const mapStateToProps = (state) => {
+  return {
+    isAuth: state.isAuth,
+  };
+};
 
-
-
-const mapDispatchToProps = dispatch =>{
-    return {
-        trySignUp:(email,password)=>dispatch(trySignUp(email,password))
-    }
-}
-
-
-
-
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+    trySignUp: (email, password) => dispatch(trySignUp(email, password)),
+  };
+};
 
 const Login = (props) => {
   //console.log("props.navigation :",props.navigation);
@@ -55,17 +53,7 @@ const Login = (props) => {
     if (email !== "" && password !== "") {
       if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
         if (authState.mode) {
-          setAuthState({
-            ...authState,
-            inputs: {
-              email: "",
-              password: "",
-              confrimPassword: "",
-            },
-          });
-          props.navigation.navigate("Home");
-        } else {
-          if (password === confrimPassword) {
+          if (props.isAuth) {
             setAuthState({
               ...authState,
               inputs: {
@@ -74,8 +62,21 @@ const Login = (props) => {
                 confrimPassword: "",
               },
             });
-            props.trySignUp(email,password)
             props.navigation.navigate("Home");
+          } else {
+            alert("Login Failed !");
+          }
+        } else {
+          if (password === confrimPassword) {
+            props.trySignUp(email, password);
+            setAuthState({
+              ...authState,
+              inputs: {
+                email: "",
+                password: "",
+                confrimPassword: "",
+              },
+            });
           } else {
             alert("password field doesn't match !");
           }
@@ -95,6 +96,7 @@ const Login = (props) => {
         placeholder="Confrim Password"
         value={authState.inputs.confrimPassword}
         style={styles.imputField}
+        //secureTextEntry={true}
         onChangeText={(value) => updateInput(value, "confrimPassword")}
       />
     );
@@ -129,6 +131,7 @@ const Login = (props) => {
           placeholder="Password"
           value={authState.inputs.password}
           style={styles.imputField}
+          //secureTextEntry={true}
           onChangeText={(value) => updateInput(value, "password")}
         />
         {conFrimPassFiled}
@@ -146,7 +149,7 @@ const Login = (props) => {
   );
 };
 
-export default connect(null,mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   loginView: {
