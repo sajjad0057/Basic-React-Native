@@ -6,14 +6,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./src/component/Login/Login";
 import navigationTab from "./src/component/navigationTab/navigationTab";
-
-
-const navigationRef = React.createRef()
-
-export const navigate = (name,params)=>{
-  navigationRef.current && navigationRef.current.navigate(name,params)
-}
-
+import { navigate, navigationRef } from "./src/NavigationRoot";
+import  Icons  from "react-native-vector-icons/FontAwesome";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 
@@ -25,7 +20,20 @@ export default function App() {
       <Provider store={Store}>
         <Stack.Navigator>
           <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Home" component={navigationTab} />
+          <Stack.Screen 
+          name="Places" 
+          component={navigationTab} 
+          options={{
+            headerLeft:null,
+            headerRight:()=>(
+              <TouchableOpacity onPress={()=>{
+                navigate("Login")
+              }}>
+                <Icons name="power-off" size={26} style={{paddingRight:10}}/>
+              </TouchableOpacity>
+            )
+          }}
+          />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import backgroundImage from "../../Images/background.gif";
 import {
   View,
@@ -11,6 +11,10 @@ import {
 } from "react-native";
 import { tryAuth } from "../../redux/actionCreators";
 import { connect } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+
+
+
 
 const mapStateToProps = (state) => {
   return {
@@ -35,6 +39,22 @@ const Login = (props) => {
     },
   });
 
+  const isFocused = useIsFocused()
+
+  useEffect(()=>{
+    console.log("isFocused Update !");
+    setAuthState({
+      ...authState,
+      inputs: {
+        email: "",
+        password: "",
+        confrimPassword: "",
+      },
+    })
+  },[isFocused])
+
+
+
   const updateInput = (value, name) => {
     setAuthState({
       ...authState,
@@ -53,27 +73,12 @@ const Login = (props) => {
     if (email !== "" && password !== "") {
       if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
         if (authState.mode) {
-          setAuthState({
-            ...authState,
-            inputs: {
-              email: "",
-              password: "",
-              confrimPassword: "",
-            },
-          });
           props.tryAuth(email, password,authState.mode);
         } else {
           if (password === confrimPassword) {
             props.tryAuth(email, password,authState.mode);
-            setAuthState({
-              ...authState,
-              inputs: {
-                email: "",
-                password: "",
-                confrimPassword: "",
-              },
-            });
           } else {
+            
             alert("password field doesn't match !");
           }
         }

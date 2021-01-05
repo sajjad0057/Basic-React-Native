@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SharePlaces from "../SharePlaces/SharePlaces";
 import FindPlaces from "../FindPlaces/FindPlaces";
 import Icons from "react-native-vector-icons/Ionicons";
-import Icon from "react-native-vector-icons/Ionicons";
+
 
 const Tab = createBottomTabNavigator();
 
