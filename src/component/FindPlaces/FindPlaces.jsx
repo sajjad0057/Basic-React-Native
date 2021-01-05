@@ -31,10 +31,11 @@ const mapDispatchToProps = dispatch =>{
 
 const FindPlaces = (props) =>{
 
-    // console.log("placeList :", props.placeList);
+    //console.log("FindPlaces---->placeList :", props.placeList);
     // console.log("selectedPlace :",props.selectedPlace);
 
     //console.log("FindPlace Props --->",props);
+    
 
     useEffect(()=>{
       console.log("called useEffet");

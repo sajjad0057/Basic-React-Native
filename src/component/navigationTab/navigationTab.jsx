@@ -4,9 +4,19 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SharePlaces from "../SharePlaces/SharePlaces";
 import FindPlaces from "../FindPlaces/FindPlaces";
 import Icons from "react-native-vector-icons/Ionicons";
+import { loadPlaces } from "../../redux/actionCreators";
+import { connect } from "react-redux";
+
 
 
 const Tab = createBottomTabNavigator();
+
+const mapDispatchToProps=dispatch=>{
+  return {
+    loadPlaces:()=>dispatch(loadPlaces())
+  }
+}
+
 
 const navigationTab = (props) => {
   return (
@@ -19,7 +29,8 @@ const navigationTab = (props) => {
             <Icons name="arrow-redo-sharp" color={color} size={size} />
           ),
         }}
-      />
+      >      
+      </Tab.Screen>
       <Tab.Screen
         name="Find Places"
         component={FindPlaces}
@@ -33,4 +44,4 @@ const navigationTab = (props) => {
   );
 };
 
-export default navigationTab;
+export default connect(null,mapDispatchToProps)(navigationTab);

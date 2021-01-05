@@ -3,6 +3,15 @@ import * as actionTypes from "./actionType"
 
 
 
+const updatePlaceInState=(place)=>{
+    return {
+        type : actionTypes.ADD_PLACE,
+        payload : place
+    }
+}
+
+
+
 export const addPlace = place =>(dispatch,getState)=>{     
     // If we using redux-thunk middleware here 2nd parameter "getSate" give us global sate.
     let token = getState().token;
@@ -11,7 +20,10 @@ export const addPlace = place =>(dispatch,getState)=>{
         body:JSON.stringify(place)
     })
     .then(response=>response.json())
-    .then(data=>console.log('handle fetch post data :',data))
+    .then(data=>{
+        console.log('handle fetch post data :',data)
+        dispatch(updatePlaceInState(place))
+    })
     .catch(err=>{
         return console.log('hanlde fetch post err :',err)
     })
@@ -27,11 +39,12 @@ export const setPlaces = places =>{
 
 
 export const loadPlaces = () =>(dispatch,getState)=>{
+    // If we using redux-thunk middleware here 2nd parameter "getSate" give us global sate.
     let token = getState().token;
     fetch(`https://my-places-97beb-default-rtdb.firebaseio.com/places.json?auth=${token}`)
     .then(res=>res.json())
     .then(data=>{
-        console.log("handle fetch get data :",data)
+        //console.log("handle fetch get data :",data)
         const places = []
         for(let key in data){
             places.push({
@@ -44,16 +57,33 @@ export const loadPlaces = () =>(dispatch,getState)=>{
     })
     .catch(err=>{
         alert("Something Went Wrong !")
-        console.log("handle fetch post err :",err)
+        console.log("handle fetch get err :",err)
     })
 }
 
-export const DeletePlace = key =>{
+const deletePlaceInState = key =>{
     return {
         type : actionTypes.DELETE_PLACE,
         payload : key
     }
 }
+
+export const DeletePlace = key =>(dispatch,getState)=>{
+    // If we using redux-thunk middleware here 2nd parameter "getSate" give us global sate.
+    let token = getState().token;
+    fetch(`https://my-places-97beb-default-rtdb.firebaseio.com/places/${key}.json?auth=${token}`,{
+        method:"DELETE",
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        dispatch(deletePlaceInState(key))
+        console.log("Delete Action success---->",data)
+
+    })
+    .catch(err=>console.log("Delete Action  error ---->",err))
+}
+
+
 
 export const setSelectedPlace = place =>{
     return {
@@ -62,10 +92,27 @@ export const setSelectedPlace = place =>{
     }
 }
 
-export const ClearPlaceList = () =>{
+const ClearPlaceListInState = () =>{
     return {
         type : actionTypes.CLEAR_PLACELIST
     }
+}
+
+
+
+export const ClearPlaceList = () =>(dispatch,getState)=>{
+    // If we using redux-thunk middleware here 2nd parameter "getSate" give us global sate.
+    let token = getState().token;
+    fetch(`https://my-places-97beb-default-rtdb.firebaseio.com/places.json?auth=${token}`,{
+        method:"DELETE",
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        dispatch(ClearPlaceListInState())
+        console.log("Delete All Action success---->",data)
+
+    })
+    .catch(err=>console.log("Delete all Action  error ---->",err))
 }
 
 export const authUser = (token)=>{
@@ -106,7 +153,7 @@ export const tryAuth = (email,password,mode)=>(dispatch)=>{
     })
     .then(res=>res.json())
     .then(data=>{
-        console.log("data----> :",data)
+        //console.log("data----> :",data)
         if(data.error){
             alert(data.error.message)
         }else{
