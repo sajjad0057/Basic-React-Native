@@ -1,24 +1,25 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { View, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SharePlaces from "../SharePlaces/SharePlaces";
 import FindPlaces from "../FindPlaces/FindPlaces";
 import Icons from "react-native-vector-icons/Ionicons";
 import { loadPlaces } from "../../redux/actionCreators";
-import { connect } from "react-redux";
+
 
 
 
 const Tab = createBottomTabNavigator();
 
-const mapDispatchToProps=dispatch=>{
-  return {
-    loadPlaces:()=>dispatch(loadPlaces())
-  }
+const test=()=>{
+  console.log("fhsfgs");
 }
 
 
+
+
 const navigationTab = (props) => {
+
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -26,10 +27,14 @@ const navigationTab = (props) => {
         component={SharePlaces}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icons name="arrow-redo-sharp" color={color} size={size} />
+            <Icons name="arrow-redo-sharp" color={color} size={size} onPress={test()}/>
+            
           ),
+          
+        
         }}
-      >      
+      >  
+        
       </Tab.Screen>
       <Tab.Screen
         name="Find Places"
@@ -44,4 +49,4 @@ const navigationTab = (props) => {
   );
 };
 
-export default connect(null,mapDispatchToProps)(navigationTab);
+export default navigationTab;
