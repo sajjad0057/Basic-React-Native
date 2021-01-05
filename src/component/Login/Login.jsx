@@ -21,6 +21,56 @@ const Login = (props) => {
     },
   });
 
+  const updateInput = (value, name) => {
+    setAuthState({
+      ...authState,
+      inputs: {
+        ...authState.inputs,
+        [name]: value,
+      },
+    });
+  };
+
+  const handleAuth = () => {
+    const email = authState.inputs.email;
+    const password = authState.inputs.password;
+    const confrimPassword = authState.inputs.confrimPassword;
+
+    if (email !== "" && password !== "") {
+      if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+        if (authState.mode) {
+          setAuthState({
+            ...authState,
+            inputs: {
+              email: "",
+              password: "",
+              confrimPassword: "",
+            },
+          });
+          props.navigation.navigate("Home");
+        } else {
+          if (password === confrimPassword) {
+            setAuthState({
+              ...authState,
+              inputs: {
+                email: "",
+                password: "",
+                confrimPassword: "",
+              },
+            });
+            props.navigation.navigate("Home");
+          } else {
+            alert("password field doesn't match !");
+          }
+        }
+      } else {
+        alert("Invalid Email");
+      }
+    } else {
+      alert("Input all the field");
+    }
+  };
+
   let conFrimPassFiled = null;
   if (!authState.mode) {
     conFrimPassFiled = (
@@ -28,16 +78,16 @@ const Login = (props) => {
         placeholder="Confrim Password"
         value={authState.inputs.confrimPassword}
         style={styles.imputField}
+        onChangeText={(value) => updateInput(value, "confrimPassword")}
       />
     );
   }
 
   return (
-    <ImageBackground 
-    source={backgroundImage} 
-    style={{width:"100%",flex:1}}
-    blurRadius={3}
-    
+    <ImageBackground
+      source={backgroundImage}
+      style={{ width: "100%", flex: 1 }}
+      blurRadius={3}
     >
       <View style={styles.loginView}>
         <TouchableOpacity
@@ -56,15 +106,20 @@ const Login = (props) => {
           placeholder="Email Address"
           value={authState.inputs.email}
           style={styles.imputField}
+          onChangeText={(value) => updateInput(value, "email")}
         />
         <TextInput
           placeholder="Password"
           value={authState.inputs.password}
           style={styles.imputField}
+          onChangeText={(value) => updateInput(value, "password")}
         />
         {conFrimPassFiled}
 
-        <TouchableOpacity style={styles.btnContainer}>
+        <TouchableOpacity
+          style={styles.btnContainer}
+          onPress={() => handleAuth()}
+        >
           <Text style={styles.btnStyle}>
             {authState.mode ? "Login" : "Sign-up"}
           </Text>
