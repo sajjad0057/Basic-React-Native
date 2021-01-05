@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { trySignUp } from "../../redux/actionCreators";
+import { tryAuth } from "../../redux/actionCreators";
 import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
@@ -20,7 +20,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    trySignUp: (email, password) => dispatch(trySignUp(email, password)),
+    tryAuth: (email, password,mode) => dispatch(tryAuth(email, password,mode)),
   };
 };
 
@@ -53,22 +53,18 @@ const Login = (props) => {
     if (email !== "" && password !== "") {
       if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
         if (authState.mode) {
-          if (props.isAuth) {
-            setAuthState({
-              ...authState,
-              inputs: {
-                email: "",
-                password: "",
-                confrimPassword: "",
-              },
-            });
-            props.navigation.navigate("Home");
-          } else {
-            alert("Login Failed !");
-          }
+          setAuthState({
+            ...authState,
+            inputs: {
+              email: "",
+              password: "",
+              confrimPassword: "",
+            },
+          });
+          props.tryAuth(email, password,authState.mode);
         } else {
           if (password === confrimPassword) {
-            props.trySignUp(email, password);
+            props.tryAuth(email, password,authState.mode);
             setAuthState({
               ...authState,
               inputs: {
